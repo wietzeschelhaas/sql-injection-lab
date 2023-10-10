@@ -28,12 +28,33 @@ Notice that there is a "Welcome Back" message in the top right corner. Now chang
 ``` 
 TrackingId=xyz' AND '1'='2
 ```
-Notice that the "Welcome Back" text disappears. This shows that we can use a boolean condition to infer results. If the expression, in this case, '1'='1, evaluates to true, the "Welcome Back" text is shown. If it evaluates to false, the text dissapears. 
+
+Notice that the "Welcome Back" text disappears. This shows that we can use a boolean condition to infer results. If the expression, in this case, '1'='1, evaluates to true, the "Welcome Back" text is shown. If it evaluates to false, the text dissapears. Study and change the trackingId to the following:
+
+``` 
+TrackingId=xyz' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>1)='a
+```
+
+What does the above query do? Why does the "a" in the end not have a closing ' 
 
 
+The rest of the lab I leave to you. The goal is to:
+1. Figure out the lentgh of the administrator password
+2. Figure out the full password. HINT to get the first element of a value in sql you can do `` SELECT SUBSTRING(password,1,1) ``, To get the second value you can do `` SELECT SUBSTRING(password,2,1) `` etc...
+
+The lab can be solved using Burpsuite intruder, but this throttled to the extend that it will take hours to bruteforce the password, instead create a pytohn script!
 
 
+``` python
+import requests
 
+headers = {"Cookie": "TrackingId=xyz" ,
+          "session": ""
+         }
+response = requests.request("get","https://example.com/" , headers=headers)
+
+print(str(response.content))
+```
 ``` sql
 SELECT a, b FROM table1 UNION SELECT c, d FROM table2
 ```
