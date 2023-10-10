@@ -14,7 +14,7 @@ The website we are hacking is a webshop and it has a SQL injection vulnerability
 Assuming the cookie looks like this :
 
 ``` 
-TrackingId=xyz, 
+TrackingId=xyz
 ```
 
 Modify it to the following. You can use BurpSuite to modify the cookie, or simply use the DevTools in your browser.
