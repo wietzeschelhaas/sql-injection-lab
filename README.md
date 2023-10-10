@@ -96,4 +96,14 @@ Modify it to the following:
 TrackingId=xyz'
 ```
 
-Notice that an error message is received and the status code is 500.
+Notice that an error message is received and the status code is 500. We have introduced an syntax error and the webserver responded accordingly. The idea here is that we want to modify the injected query so that it causes a database error only if a condition is true. Study the following query:
+``` 
+' AND (SELECT CASE WHEN LENGTH(password) > 1 THEN TO_CHAR(1/0) ELSE 'a' END FROM users WHERE username='administrator') = 'a'--"
+```
+
+**Think about the following questions:**
+
+* What does the above query do?
+* What happens if you change the 1 in `` LENGTH(password) > 1 `` to 100 ? 
+* Why does it end with 'a'--?
+
