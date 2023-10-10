@@ -34,13 +34,19 @@ Notice that the "Welcome Back" text disappears. This shows that we can use a boo
 ``` 
 TrackingId=xyz' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>1)='a
 ```
+**Think about the following questions:**
 
-What does the above query do? Why does the "a" in the end not have a closing ' 
+* What does the above query do?
+* Does the Welcome text appear in the response or not? 
+* Why does the "a" in the end not have a closing '
+
+<br/><br/>
+
 
 
 The rest of the lab I leave to you. The goal is to:
 1. First figure out the length of the administrator password
-2. Second figure out the full password. HINT to get the first element of a value in sql you can do `` SELECT SUBSTRING(password,1,1) ``, To get the second value you can do `` SELECT SUBSTRING(password,2,1) `` etc...
+2. Second figure out the full password. **HINT** to get the first element of a value in sql you can do `` SELECT SUBSTRING(password,1,1) ``, To get the second value you can do `` SELECT SUBSTRING(password,2,1) `` etc...
 
 The lab can be solved using Burpsuite intruder, but this throttled to the extend that it will take hours to bruteforce the password, instead create a python script!
 We can send GET request with python using the requests library
@@ -48,13 +54,17 @@ We can send GET request with python using the requests library
 ``` python
 import requests
 
-headers = {"Cookie": "cooke=xyz" ,
-          "session": "session1"
-         }
-response = requests.request("get","https://example.com/" , headers=headers)
+cookies = {"TrackingId": "xyz",
+          "session":  "session1"}
+
+response = requests.request("get","https://example.com/" , cookies=cookies)
 
 print(str(response.content))
 ```
+
+You need to be logged in to access the portswigger lab so dont forget to set the session cookie.
+
+
 ``` sql
 SELECT a, b FROM table1 UNION SELECT c, d FROM table2
 ```
