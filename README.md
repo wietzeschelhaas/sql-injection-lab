@@ -3,10 +3,10 @@
 Blind SQL injection occurs when an application is vulnerable to SQL injection, but its HTTP responses does not contain any SQL query result. So a UNION attack wont work.
 Instead, we can infer the results indirectly based on the application's behavior, such as changes in response times or error messages.
 
-In this workshop we will solve two blind SQL injeciton labs, error-based SQL injection and SQL injection with time delays.
+In this workshop we will solve two blind SQL injeciton labs, Blind SQL injection with conditional responses and error-based SQL injection
 The goal for both labs is to log in as the administrator user. 
 
-## error-based SQL injection
+## Blind SQL injection with conditional responses 
 Go to the lab website and access the lab.
 https://portswigger.net/web-security/sql-injection/blind/lab-conditional-errors
 
@@ -63,16 +63,37 @@ response = requests.request("get","https://example.com/" , cookies=cookies)
 print(str(response.content))
 ```
 
+
 <details>
   <summary>Hint 1</summary>
- To check if the first letter of the administrator password is an 'a', append the following to the TrackerId cookie : 
-          ``` ' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a  ```
+  To check if the first letter of the administrator password is an 'a', append the following to the TrackerId cookie : 
+
+  ```
+   ' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a  
+  ```
 </details>
 
 <details>
   <summary>Hint 2</summary>
-
-  ```
-  long console output here
-  ```
+           Use the SQL code from Hint 1 and create a python script that iterates over all possible password letters, with each iteration perform a get request to lab site. If the response contains the word "Welcome", we have found the first letter of the password. Continue to find the second letter and so on until the entire password is found! 
 </details>
+
+## Error-based SQL injection
+
+Go to the lab website and access the lab.
+https://portswigger.net/web-security/sql-injection/blind/lab-conditional-responses
+
+The website is the same as the previous lab and has again a SQL injection vulnerability in the TrackingId cookie. But this time the application does not respond any differently based on whether the query returns any rows. Meaning there is no "Welcome Back" text in the response. 
+
+Assuming the cookie looks like this :
+
+``` 
+TrackingId=xyz
+```
+Modify it to the following:
+
+``` 
+TrackingId=xyz'
+```
+
+Notice that an error message is received and the status code is 500.
