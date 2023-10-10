@@ -3,7 +3,7 @@
 Blind SQL injection occurs when an application is vulnerable to SQL injection, but its HTTP responses does not contain any SQL query result. So a UNION attack wont work.
 Instead, we can infer the results indirectly based on the application's behavior, such as changes in response times or error messages.
 
-In this workshop we will solve two blind SQL injeciton labs, Blind SQL injection with conditional responses and error-based SQL injection
+In this workshop we will solve two blind SQL injeciton labs, Blind SQL injection with conditional responses and error-based SQL injection.
 The goal for both labs is to log in as the administrator user. 
 
 ## Blind SQL injection with conditional responses 
