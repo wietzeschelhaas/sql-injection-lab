@@ -102,8 +102,28 @@ Notice that an error message is received and the status code is 500. We have int
 ```
 
 **Think about the following questions:**
-
+error
 * What does the above query do?
 * What happens if you change the 1 in `` LENGTH(password) > 1 `` to 100 ? 
 * Why does it end with 'a'--?
+
+Solve the rest of the lab, using a similar method as the first lab:
+1. First figure out the length of the administrator password
+2. Second figure out the full password. **HINT** This lab uses an Oracle database and this has slightly different syntax, to get the first element of a value it uses `` SUBSTR(password,1,1) ``.
+
+<details>
+  <summary>Hint 1</summary>
+  To check if the first letter of the administrator password is an 'a', append the following to the TrackerId cookie. 
+
+  ```
+   ' AND (SELECT CASE WHEN SUBSTR(password,1,1) = 'a' THEN TO_CHAR(1/0) ELSE 'a' END FROM users WHERE username='administrator') = 'a'--",
+  ```
+If the first letter of the password is 'a' the website returns an 500 because it tried to divide 1 with 0 which causes an error.
+</details>
+
+<details>
+  <summary>Hint 2</summary>
+           Use the SQL code from Hint 1 and modify the python script created in the previous lab so that it checks if the response code is 500 instead of checking if the reponse contains the word "Welcome"
+</details>
+
 
